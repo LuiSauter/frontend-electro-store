@@ -1,6 +1,6 @@
 import { PrivateRoutes } from '@/models'
 import { PERMISSION } from '@/modules/auth/utils/permissions.constants'
-import { BoxIcon, ListFilter, MonitorSmartphone, User, UserCogIcon, UsersIcon } from 'lucide-react'
+import { BoxIcon, ListFilter, MonitorSmartphone, User, UserCogIcon } from 'lucide-react'
 import { createElement } from 'react'
 
 export interface MenuHeaderRoute {
@@ -22,13 +22,13 @@ export const MenuSideBar: MenuHeaderRoute[] = [
         icon: createElement(User, { width: 20, height: 20 }),
         path: PrivateRoutes.USER,
         permissions: [PERMISSION.ADMIN] as PERMISSION[]
-      },
-      {
-        label: 'Clientes',
-        icon: createElement(UsersIcon, { width: 20, height: 20 }),
-        path: PrivateRoutes.CUSTOMER,
-        permissions: [PERMISSION.ADMIN, PERMISSION.CASHIER] as PERMISSION[]
       }
+      // {
+      //   label: 'Clientes',
+      //   icon: createElement(UsersIcon, { width: 20, height: 20 }),
+      //   path: PrivateRoutes.CUSTOMER,
+      //   permissions: [PERMISSION.ADMIN, PERMISSION.CASHIER] as PERMISSION[]
+      // }
     ]
   },
   {
