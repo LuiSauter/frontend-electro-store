@@ -110,10 +110,6 @@ const LoginPage = (): JSX.Element => {
             </Button>
           </form>
         </Form>
-        <div className="text-center text-sm text-muted-foreground">
-          <p>Credenciales de prueba:</p>
-          <p className="font-medium">admin@ejemplo.com / admin123</p>
-        </div>
       </div>
     </div>
   )

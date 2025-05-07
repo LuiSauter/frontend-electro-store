@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
     "target": "ES2020",
+    "strictNullChecks": true,
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-
-    "types": ["vitest/globals"],
-
+    "types": ["vitest/globals", "node"],
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -15,8 +14,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
-
     /* Alias */
     "baseUrl": ".",
     "paths": {
@@ -32,15 +29,18 @@
       "@redux/*": ["src/redux/*"],
       "@routes/*": ["src/routes/*"],
       "@styles/*": ["src/styles/*"],
-      "@utils/*": ["src/utils/*"],
+      "@utils/*": ["src/utils/*"]
     },
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "__test__",     "server.js"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src", "__test__", "server/index.js"],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

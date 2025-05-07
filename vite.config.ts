@@ -10,19 +10,19 @@ export default defineConfig({
   // },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@adapters': path.resolve(__dirname, './src/adapters'),
-      '@assets': path.resolve(__dirname, './src/assets'),
-      '@components': path.resolve(__dirname, './src/components'),
-      '@context': path.resolve(__dirname, './src/context'),
-      '@hooks': path.resolve(__dirname, './src/hooks'),
-      '@layouts': path.resolve(__dirname, './src/layouts'),
-      '@models': path.resolve(__dirname, './src/models'),
-      '@modules': path.resolve(__dirname, './src/modules'),
-      '@redux': path.resolve(__dirname, './src/redux'),
-      '@routes': path.resolve(__dirname, './src/routes'),
-      '@styles': path.resolve(__dirname, './src/styles'),
-      '@utils': path.resolve(__dirname, './src/utils'),
+      '@': path.resolve(import.meta.dirname, './src'),
+      '@adapters': path.resolve(import.meta.dirname, './src/adapters'),
+      '@assets': path.resolve(import.meta.dirname, './src/assets'),
+      '@components': path.resolve(import.meta.dirname, './src/components'),
+      '@context': path.resolve(import.meta.dirname, './src/context'),
+      '@hooks': path.resolve(import.meta.dirname, './src/hooks'),
+      '@layouts': path.resolve(import.meta.dirname, './src/layouts'),
+      '@models': path.resolve(import.meta.dirname, './src/models'),
+      '@modules': path.resolve(import.meta.dirname, './src/modules'),
+      '@redux': path.resolve(import.meta.dirname, './src/redux'),
+      '@routes': path.resolve(import.meta.dirname, './src/routes'),
+      '@styles': path.resolve(import.meta.dirname, './src/styles'),
+      '@utils': path.resolve(import.meta.dirname, './src/utils'),
     }
-  }
+  },
 })
