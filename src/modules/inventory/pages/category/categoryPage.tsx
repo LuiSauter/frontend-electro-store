@@ -135,8 +135,8 @@ const ProductPage = (): JSX.Element => {
                     <TableRow key={item.id}>
                       <TableCell>{item.name}</TableCell>
                       <TableCell>
-                        <Badge variant={!item.is_active ? 'success' : 'outline'}>
-                          {!item.is_active ? 'Activo' : 'Inactivo'}
+                        <Badge variant={item.is_active ? 'success' : 'outline'}>
+                          {item.is_active ? 'Activo' : 'Inactivo'}
                         </Badge>
                       </TableCell>
                       {/* <TableCell>
