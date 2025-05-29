@@ -35,6 +35,9 @@ export enum PrivateRoutes {
   // sales
   SALE = '/ventas',
   SALE_CREATE = '/ventas/crear',
+
+  // binnacle
+  BINNACLE = '/bitacora',
 }
 
 export interface Route {

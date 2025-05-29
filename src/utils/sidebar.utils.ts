@@ -1,6 +1,6 @@
 import { PrivateRoutes } from '@/models'
 import { PERMISSION } from '@/modules/auth/utils/permissions.constants'
-import { BoxIcon, ListFilter, MonitorSmartphone, User, UserCogIcon } from 'lucide-react'
+import { BoxIcon, ListFilter, MonitorSmartphone, ScrollText, Shield, User, UserCogIcon, UsersIcon } from 'lucide-react'
 import { createElement } from 'react'
 
 export interface MenuHeaderRoute {
@@ -22,13 +22,13 @@ export const MenuSideBar: MenuHeaderRoute[] = [
         icon: createElement(User, { width: 20, height: 20 }),
         path: PrivateRoutes.USER,
         permissions: [PERMISSION.ADMIN] as PERMISSION[]
+      },
+      {
+        label: 'Clientes',
+        icon: createElement(UsersIcon, { width: 20, height: 20 }),
+        path: PrivateRoutes.CUSTOMER,
+        permissions: [PERMISSION.ADMIN, PERMISSION.CASHIER] as PERMISSION[]
       }
-      // {
-      //   label: 'Clientes',
-      //   icon: createElement(UsersIcon, { width: 20, height: 20 }),
-      //   path: PrivateRoutes.CUSTOMER,
-      //   permissions: [PERMISSION.ADMIN, PERMISSION.CASHIER] as PERMISSION[]
-      // }
     ]
   },
   {
@@ -47,6 +47,19 @@ export const MenuSideBar: MenuHeaderRoute[] = [
         icon: createElement(MonitorSmartphone, { width: 20, height: 20 }),
         path: PrivateRoutes.PRODUCT,
         permissions: [PERMISSION.ADMIN, PERMISSION.CASHIER] as PERMISSION[]
+      }
+    ]
+  },
+  {
+    label: 'Administración',
+    icon: createElement(Shield, { width: 20, height: 20 }),
+    permissions: [PERMISSION.ADMIN] as PERMISSION[],
+    children: [
+      {
+        label: 'Bitácora',
+        icon: createElement(ScrollText, { width: 20, height: 20 }),
+        path: PrivateRoutes.BINNACLE,
+        permissions: [PERMISSION.ADMIN] as PERMISSION[]
       }
     ]
   }
