@@ -57,7 +57,7 @@ interface PrintTicket {
 const SalePage = (): JSX.Element => {
   useHeader([
     { label: 'Dashboard', path: PrivateRoutes.DASHBOARD },
-    { label: 'Carrito de Compras' }
+    { label: 'Vender' }
   ])
   const navigate = useNavigate()
   const { allProducts, isLoading: isLoadingProducts, search } = useGetAllProduct()

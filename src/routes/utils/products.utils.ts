@@ -7,7 +7,7 @@ const CategoryPage = lazy(() => import('@modules/inventory/pages/category/catego
 const ProductFormPage = lazy(() => import('@modules/inventory/pages/products/components/product-form'))
 const CashPage = lazy(() => import('@modules/sales/pages/cashes'))
 const CashControlPage = lazy(() => import('@modules/sales/pages/cashes/components/cash-control'))
-const SalePage = lazy(() => import('@modules/sales/pages/sales'))
+const SalePage = lazy(() => import('@modules/sales/pages/sales/sales-pos-page'))
 const SalesPage = lazy(() => import('@modules/sales/pages/sales/sales-page'))
 
 export const productRoutes: Route[] = [

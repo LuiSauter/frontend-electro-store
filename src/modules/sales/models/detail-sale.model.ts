@@ -3,10 +3,10 @@ import { type Product } from '../../inventory/model/product.model'
 
 export interface DetailSale extends ApiBase {
   product: Product
-  quantity: number
+  amount: number
   price: number
-  discount: number
-  subtotal: number
+  discount?: number
+  subTotal: number
 }
 
 export interface CreateDetailSale extends Partial<Omit<DetailSale, 'product'>> {

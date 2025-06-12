@@ -34,10 +34,17 @@ export enum PrivateRoutes {
 
   // sales
   SALE = '/ventas',
-  SALE_CREATE = '/ventas/crear',
+  SALE_CREATE = '/vender',
+
+  // buy
+  PROVIDER = '/proveedores',
+  BUY = '/compras',
 
   // binnacle
   BINNACLE = '/bitacora',
+
+  // payment methods
+  PAYMENT_METHOD = '/metodos-pago',
 }
 
 export interface Route {

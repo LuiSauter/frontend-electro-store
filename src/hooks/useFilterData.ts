@@ -6,7 +6,7 @@ import { generateQueryParams } from '@/utils'
 export const filterStateDefault: FilterOptions = {
   offset: 0,
   limit: 100
-  // order: 'updated_at'
+  // order: 'DESC'
 }
 
 export const useFilterData = (filterState: FilterOptions) => {

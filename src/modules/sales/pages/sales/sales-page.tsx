@@ -23,7 +23,7 @@ const SalesPage = (): JSX.Element => {
     { label: 'Ventas' }
   ])
   const navigate = useNavigate()
-  const { allResource: sales, isLoading, filterOptions, countData, newPage, prevPage, setOffset } = useGetAllResource<Sale[]>({ endpoint: '/api/sales/' })
+  const { allResource: sales, isLoading, filterOptions, countData, newPage, prevPage, setOffset } = useGetAllResource<Sale>({ endpoint: '/api/sale-note' })
   const reporteRef = useRef(null)
   const [showReport, setShowReport] = useState(false)
   const handlePrint = useReactToPrint({ content: () => reporteRef.current, documentTitle: 'Reporte de Historial de Ventas' })
@@ -38,14 +38,14 @@ const SalesPage = (): JSX.Element => {
 
   const exportToCsv = (detailed: boolean) => {
     exportVentasToExcel(sales?.map((item: any) => ({
-      id: item.code,
-      fecha: item.created_at,
-      total: Number(item.paid_amount),
-      items: item.details.map((detail: any, index: number) => ({
-        id: index,
-        nombre: detail.product_detail.name,
+      id: item.id,
+      fecha: item.date,
+      total: Number(item.amountPaid),
+      items: item.saleDetails.map((detail: any) => ({
+        id: detail.id,
+        nombre: detail.product.name,
         precio: Number(detail.price),
-        cantidad: Number(detail.quantity)
+        cantidad: Number(detail.amount)
       }))
     })) ?? [], detailed)
   }
@@ -152,23 +152,29 @@ const SalesPage = (): JSX.Element => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Nro</TableHead>
-                  <TableHead>Nit</TableHead>
-                  <TableHead>Cantidad prod.</TableHead>
-                  <TableHead>Total</TableHead>
+                  <TableHead>Código</TableHead>
+                  <TableHead>Total (Bs.)</TableHead>
+                  <TableHead>Recibido (Bs.)</TableHead>
+                  <TableHead>Cambio (Bs.)</TableHead>
+                  <TableHead>Cantidad</TableHead>
+                  <TableHead>Vendedor</TableHead>
+                  <TableHead>Cliente</TableHead>
                   <TableHead>Fecha</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading
                   ? <Skeleton rows={5} columns={8} />
-                  : sales?.map((item: any) => (
+                  : sales?.map((item: Sale) => (
                     <TableRow key={item.id}>
                       <TableCell>{item.code}</TableCell>
-                      <TableCell>{item.nit}</TableCell>
-                      <TableCell>{item.details.length}</TableCell>
-                      <TableCell>Bs. {item.paid_amount}</TableCell>
-                      <TableCell>{formatDate(item.created_at as Date)}</TableCell>
+                      <TableCell>{Number(item.amountPaid).toFixed(2)}</TableCell>
+                      <TableCell>{Number(item.amountReceivable).toFixed(2)}</TableCell>
+                      <TableCell>{Number(item.amountReturned).toFixed(2)}</TableCell>
+                      <TableCell>{item.saleDetails.length}</TableCell>
+                      <TableCell>{item.seller.name + ' ' + item.seller.last_name}</TableCell>
+                      <TableCell>{item.customer ? item.customer.name + ' ' + item.customer.last_name : 'Sin cliente'}</TableCell>
+                      <TableCell>{item.date + ' ' + item.time}</TableCell>
                     </TableRow>
                   ))}
               </TableBody>
@@ -196,13 +202,13 @@ const SalesPage = (): JSX.Element => {
               sale={
                 sales?.map((item: any) => ({
                   id: item.code,
-                  fecha: item.created_at,
-                  total: Number(item.paid_amount),
-                  items: item.details.map((detail: any, index: number) => ({
+                  fecha: item.date,
+                  total: Number(item.amountPaid),
+                  items: item.saleDetails.map((detail: any, index: number) => ({
                     id: index,
-                    nombre: detail.product_detail.name,
+                    nombre: detail.product.name,
                     precio: Number(detail.price),
-                    cantidad: Number(detail.quantity)
+                    cantidad: Number(detail.amount)
                   }))
                 })) ?? []
               }
