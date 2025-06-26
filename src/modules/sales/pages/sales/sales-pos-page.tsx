@@ -28,7 +28,8 @@ const SaleSchema = z.object({
   })).min(1),
   amountPaid: z.number().nonnegative(),
   amountReceivable: z.number().min(0),
-  amountReturned: z.number().nonnegative()
+  amountReturned: z.number().nonnegative(),
+  paymentMethod: z.string().optional()
 })
 type SaleForm = z.infer<typeof SaleSchema>
 
@@ -82,16 +83,24 @@ export default function PosPage() {
         discount: 0,
         date: new Date().toISOString().split('T')[0],
         time: new Date().toTimeString().slice(0, 5),
-        details: data.details
+        details: data.details,
+        paymentMethod: data.paymentMethod ?? 'cash'
       })
     }, {
       loading: 'Procesando venta...',
-      success: 'Venta registrada con éxito',
+      success: () => {
+        form.reset({
+          details: [],
+          amountPaid: 0,
+          amountReceivable: 0,
+          amountReturned: 0
+        })
+        append({ productId: '', amount: 1, price: 0, subTotal: 0 })
+        return 'Venta registrada con éxito'
+      },
       error: 'Error al procesar venta'
     })
   }
-
-  console.log(form.formState.errors)
 
   return (
     <section className="p-6 space-y-6">
@@ -124,6 +133,25 @@ export default function PosPage() {
               </FormItem>
             )}
           />
+
+          <FormField name="paymentMethod" control={form.control} render={({ field }) => (
+            <FormItem>
+              <FormLabel>Método de pago</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona un método" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="cash">Efectivo</SelectItem>
+                  <SelectItem value="card">Tarjeta</SelectItem>
+                  <SelectItem value="transfer">Transferencia</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )} />
 
           {/* Crear cliente si no existe */}
           {!form.watch('customerId') && (
@@ -214,22 +242,22 @@ export default function PosPage() {
 
           {/* 💰 Totales y cobro */}
           <div className="flex flex-col items-end space-y-2">
-            <Badge>Total: {form.watch('amountPaid').toFixed(2)} Bs.</Badge>
+            <Badge className='text-xl'>Total: {form.watch('amountPaid').toFixed(2)} Bs.</Badge>
             <FormField name="amountReceivable" control={form.control} render={({ field }) => (
               <FormItem>
                 <FormLabel>Monto entregado</FormLabel>
                 <FormControl>
                   <Input type="number" min={0}
-                  onChange={e => {
-                    const v = Number(e.target.value)
-                    field.onChange(v)
-                    form.setValue('amountReturned', v - form.watch('amountPaid'))
-                  }} />
+                    onChange={e => {
+                      const v = Number(e.target.value)
+                      field.onChange(v)
+                      form.setValue('amountReturned', v - form.watch('amountPaid'))
+                    }} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )} />
-            <Badge color={form.watch('amountReturned') < 0 ? 'destructive' : 'secondary'}>
+            <Badge className='text-lg' variant='info' color={form.watch('amountReturned') < 0 ? 'destructive' : 'secondary'}>
               Cambio: {form.watch('amountReturned').toFixed(2)} Bs.
             </Badge>
           </div>
@@ -239,6 +267,6 @@ export default function PosPage() {
           </Button>
         </form>
       </Form>
-    </section >
+    </section>
   )
 }

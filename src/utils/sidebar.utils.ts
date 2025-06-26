@@ -47,6 +47,12 @@ export const MenuSideBar: MenuHeaderRoute[] = [
         icon: createElement(MonitorSmartphone, { width: 20, height: 20 }),
         path: PrivateRoutes.PRODUCT,
         permissions: [PERMISSION.ADMIN, PERMISSION.CASHIER] as PERMISSION[]
+      },
+      {
+        label: 'Salida de productos',
+        icon: createElement(ShoppingBagIcon, { width: 20, height: 20 }),
+        path: PrivateRoutes.OUTPUT,
+        permissions: [PERMISSION.ADMIN] as PERMISSION[]
       }
     ]
   },

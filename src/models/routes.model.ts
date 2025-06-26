@@ -28,6 +28,8 @@ export enum PrivateRoutes {
   PRODUCT_EDIT = '/productos/:id',
   PRODUCT_CATEGORY = '/productos/categorias',
 
+  OUTPUT = '/salidas',
+
   // cashes
   CASH = '/cajas',
   CASH_CONTROL = '/cajas/control',

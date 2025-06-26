@@ -157,6 +157,7 @@ const SalesPage = (): JSX.Element => {
                   <TableHead>Recibido (Bs.)</TableHead>
                   <TableHead>Cambio (Bs.)</TableHead>
                   <TableHead>Cantidad</TableHead>
+                  {/* <TableHead>Método de pago</TableHead> */}
                   <TableHead>Vendedor</TableHead>
                   <TableHead>Cliente</TableHead>
                   <TableHead>Fecha</TableHead>
@@ -172,6 +173,7 @@ const SalesPage = (): JSX.Element => {
                       <TableCell>{Number(item.amountReceivable).toFixed(2)}</TableCell>
                       <TableCell>{Number(item.amountReturned).toFixed(2)}</TableCell>
                       <TableCell>{item.saleDetails.length}</TableCell>
+                      {/* <TableCell>{item.paymentMethod}</TableCell> */}
                       <TableCell>{item.seller.name + ' ' + item.seller.last_name}</TableCell>
                       <TableCell>{item.customer ? item.customer.name + ' ' + item.customer.last_name : 'Sin cliente'}</TableCell>
                       <TableCell>{item.date + ' ' + item.time}</TableCell>
@@ -202,7 +204,7 @@ const SalesPage = (): JSX.Element => {
               sale={
                 sales?.map((item: any) => ({
                   id: item.code,
-                  fecha: item.date,
+                  fecha: item.createdAt,
                   total: Number(item.amountPaid),
                   items: item.saleDetails.map((detail: any, index: number) => ({
                     id: index,
@@ -235,12 +237,14 @@ interface SaleReport {
 }
 
 function ReporteHistorial({ sale }: { sale: SaleReport[] }) {
+  console.log(sale)
   const totalVentas = sale.reduce((total, venta) => total + venta.total, 0)
   const cantidadVentas = sale.length
   const fechaInicio =
     sale.length > 0 ? new Date(Math.min(...sale.map((v) => new Date(v.fecha).getTime()))) : new Date()
   const fechaFin =
     sale.length > 0 ? new Date(Math.max(...sale.map((v) => new Date(v.fecha).getTime()))) : new Date()
+  // with created_at
 
   const productosVendidos: Record<string, { nombre: string, cantidad: number, total: number }> = {}
   sale.forEach((venta) => {
@@ -322,7 +326,7 @@ function ReporteHistorial({ sale }: { sale: SaleReport[] }) {
           <thead>
             <tr style={{ borderBottom: '2px solid #ddd' }}>
               <th style={{ textAlign: 'left', padding: '0.5rem' }}>Código</th>
-              <th style={{ textAlign: 'left', padding: '0.5rem' }}>Fecha</th>
+              {/* <th style={{ textAlign: 'left', padding: '0.5rem' }}>Fecha</th> */}
               <th style={{ textAlign: 'center', padding: '0.5rem' }}>Items</th>
               <th style={{ textAlign: 'right', padding: '0.5rem' }}>Total</th>
             </tr>
@@ -331,7 +335,7 @@ function ReporteHistorial({ sale }: { sale: SaleReport[] }) {
             {sale.map((venta) => (
               <tr key={venta.id} style={{ borderBottom: '1px solid #ddd' }}>
                 <td style={{ padding: '0.5rem' }}>{venta.id}</td>
-                <td style={{ padding: '0.5rem' }}>{formatDate(venta.fecha)}</td>
+                {/* <td style={{ padding: '0.5rem' }}>{formatDate(venta.fecha)}</td> */}
                 <td style={{ textAlign: 'center', padding: '0.5rem' }}>{venta.items.length}</td>
                 <td style={{ textAlign: 'right', padding: '0.5rem' }}>Bs. {(venta.total).toFixed(2)}</td>
               </tr>

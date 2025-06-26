@@ -13,6 +13,7 @@ export interface Sale extends ApiBase {
   seller: User
   customer: User
   saleDetails: DetailSale[]
+  paymentMethod: string
 }
 
 export interface CreateSale extends Partial<Omit<Sale, 'code' | 'customer' | 'cash_register' | 'details'>> {

@@ -1,4 +1,4 @@
-import { CircleUser, LogOut, Menu } from 'lucide-react'
+import { Bell, CircleUser, LogOut, Menu } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
@@ -9,11 +9,35 @@ import Navigation from './navigation'
 import { useAuth, useHeader } from '@/hooks'
 // import { PrivateRoutes } from '@/models'
 import { AppConfig } from '@/config'
+import { useEffect } from 'react'
+import { socket } from '@/config/socket'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { toast } from 'sonner'
+import { useGetAllResource } from '@/hooks/useApiResource'
 
 const Header = () => {
   const { breadcrumb } = useHeader()
   const { signOut } = useAuth()
   // const navigate = useNavigate()
+  const { allResource: notifications } = useGetAllResource({ endpoint: '/api/product/notifications', isPagination: false })
+
+  useEffect(() => {
+    socket.on('minimunStock', (data: { title: string, body: string }) => {
+      toast.info(data.title, {
+        description: data.body,
+        duration: 5000,
+        position: 'bottom-right',
+        style: {
+          background: '#fff',
+          color: '#000'
+        }
+      })
+    })
+
+    return () => {
+      socket.off('minimunStock')
+    }
+  }, [socket])
 
   return (
     <header className="flex h-14 items-center gap-4 border-b px-4 lg:h-[60px] lg:px-6 dark:bg-dark-bg-secondary bg-light-bg-primary">
@@ -54,6 +78,29 @@ const Header = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant='ghost'
+          >
+            <Bell className="h-5 w-5" />
+            <span className="sr-only">Notificaciones</span>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-80 mr-4 bg-light-bg-primary dark:bg-dark-bg-secondary">
+          <div>
+            <h3 className="font-semibold mb-2">Notificaciones</h3>
+            <ul className="space-y-2">
+              {notifications?.map((notification: any) => (
+                <li key={notification.id} className="p-2 rounded hover:bg-light-bg-secondary dark:hover:bg-dark-bg-primary transition">
+                  <span className="font-medium">{notification.title}</span>
+                  <div className="text-xs text-muted-foreground">{notification.body}</div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </PopoverContent>
+      </Popover>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="icon" className="rounded-full">
@@ -79,7 +126,7 @@ const Header = () => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </header>
+    </header >
   )
 }
 

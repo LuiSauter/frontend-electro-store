@@ -9,6 +9,7 @@ const CashPage = lazy(() => import('@modules/sales/pages/cashes'))
 const CashControlPage = lazy(() => import('@modules/sales/pages/cashes/components/cash-control'))
 const SalePage = lazy(() => import('@modules/sales/pages/sales/sales-pos-page'))
 const SalesPage = lazy(() => import('@modules/sales/pages/sales/sales-page'))
+const Outputage = lazy(() => import('@modules/inventory/pages/output'))
 
 export const productRoutes: Route[] = [
   {
@@ -49,6 +50,11 @@ export const productRoutes: Route[] = [
   {
     path: PrivateRoutes.SALE,
     element: createElement(SalesPage),
+    permissions: [PERMISSION.ADMIN] as PERMISSION[]
+  },
+  {
+    path: PrivateRoutes.OUTPUT,
+    element: createElement(Outputage),
     permissions: [PERMISSION.ADMIN] as PERMISSION[]
   }
 ]
